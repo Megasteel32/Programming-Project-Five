@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,13 +29,15 @@ class BankAccount extends JFrame {
         public void actionPerformed(ActionEvent event) {
             if (event.getSource() == deposit) {
                 balance += Double.parseDouble(ioField.getText());
-                displayField.setText(String.valueOf(balance));
+                displayField.setText(String.format("$%.2f", balance));
                 ioField.setText("Deposit Successful!");
+                warningField.setText("");
             } else if (event.getSource() == withdraw) {
-                if (Integer.parseInt(ioField.getText()) <= balance) {
-                    balance -= Integer.parseInt(ioField.getText());
-                    displayField.setText(String.valueOf(balance));
+                if (Double.parseDouble(ioField.getText()) <= balance) {
+                    balance -= Double.parseDouble(ioField.getText());
+                    displayField.setText(String.format("$%.2f", balance));
                     ioField.setText("Withdraw Successful!");
+                    warningField.setText("");
                 } else {
                     warningField.setText("Insufficient Funds!");
                 }
@@ -49,6 +50,7 @@ class BankAccount extends JFrame {
         withdraw = new JButton("Withdraw");
         ioField = new JTextField();
         displayField = new JTextField();
+        displayField.setText(String.format("$%.2f", balance));
         warningField = new JTextField();
         ClickListener listener = new ClickListener();
         deposit.addActionListener(listener);
